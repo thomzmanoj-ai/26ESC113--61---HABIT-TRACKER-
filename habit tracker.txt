@@ -1,0 +1,73 @@
+#include <stdio.h>
+#define MAX_HABITS 50
+
+int main(void) {
+    char habitName[MAX_HABITS][30];
+    int daysDone[MAX_HABITS];
+    int count = 0;
+    int choice;
+    int sno;
+    int i;
+
+    do {
+        /* Display the menu */
+        printf("\n==== HABIT TRACKER ====\n");
+        printf("1. Add habit\n");
+        printf("2. Mark a habit done for today\n");
+        printf("3. View all habits\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                if (count == MAX_HABITS) {
+                    printf("List is full. Cannot add more habits.\n");
+                } else {
+                    printf("Enter habit name: ");
+                    scanf(" %29[^\n]", habitName[count]);
+                    daysDone[count] = 0;
+                    count = count + 1;
+                    printf("Habit added. S.No. = %d\n", count);
+                }
+                break;
+
+            case 2:
+                if (count == 0) {
+                    printf("No habits added yet.\n");
+                } else {
+                    printf("Enter S.No. of habit: ");
+                    scanf("%d", &sno);
+                    if (sno < 1 || sno > count) {
+                        printf("Invalid S.No.\n");
+                    } else {
+                        daysDone[sno - 1] = daysDone[sno - 1] + 1;
+                        printf("Done! %s - days done = %d\n", habitName[sno - 1], daysDone[sno - 1]);
+                    }
+                }
+                break;
+
+            case 3:
+                if (count == 0) {
+                    printf("No habits added yet.\n");
+                } else {
+                    printf("%-6s %-25s %-10s\n", "S.No.", "Habit Name", "Days Done");
+                    printf("-------------------------------------------\n");
+                    for (i = 0; i < count; i++) {
+                        printf("%-6d %-25s %-10d\n", i + 1, habitName[i], daysDone[i]);
+                    }
+                }
+                break;
+
+            case 4:
+                printf("Thank you. Exiting...\n");
+                break;
+
+            default:
+                printf("Invalid choice. Please enter 1 to 4.\n");
+                break;
+        }
+    } while (choice != 4);
+
+    return 0;
+}
